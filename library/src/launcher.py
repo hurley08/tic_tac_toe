@@ -1,7 +1,9 @@
+from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as Cr
+from tic_tac_toe.frontends.console.renderers import clear_screen, blink, print_blinking, print_solid
+from tic_tac_toe.frontends.console import renderers as REN
 from tic_tac_toe.logic import validators, models, exceptions
-from tic_tac_toe.game import players, engine
-from frontends.console import renderers
-from tic_tac_toe.game.renderers import Renderer as REN 
+from tic_tac_toe.game import players, engine,
+from tic_tac_toe.game.renderers import Renderer as ren 
 
 ge = engine.TicTacToe
 gep = ge.play
@@ -32,11 +34,11 @@ gns = gs.game_not_started
 pm = gs.possible_moves
 mm = gs.make_move_to
 
-cr = renderers.ConsoleRenderer
-cs = renderers.clear_screen
-bl = renderers.blink
-pbl = renderers.print_blinking
-prs = renderers.print_solid
+Cr = Cr(gr())
+cs = clear_screen
+bl = blink
+pbl = print_blinking
+prs = print_solid
 
 player = players.Player
 player_dumb = players.DumbComputerPlayer
@@ -52,8 +54,6 @@ igs = exceptions.InvalidGameState
 im = exceptions.InvalidMove
 
 cp = players.ComputerPlayer
-dcp = players.DumbComputerPlayer
-p = players.Player
 
 def create_random_cells():
     t = ""
@@ -67,7 +67,31 @@ def create_random_cells():
 
 p1 = player_dumb(mark.CROSS)
 p2 = player_dumb(mark.NOUGHT)
-Ren = cr()
-GAME = ge(p1,p2,Ren)
-GRID = gr()
-GS = gs(GRID)
+try:
+    e = ge(p1, p2, Cr)
+    print(f"TicTacToe class instantiated")
+except:
+    print(f"Failed to instantiate engine")
+try:
+    GR = gr()
+    print(f"grid created")
+    GS = gs(GR)
+    print(f"game_state created")
+except:
+    print(f"failed to create grid or game_state")
+finally:
+    print(f"int completed")
+
+while not GS.game_over:
+    mv1 = p1.get_computer_move(GS)
+    GS = mv1.after_state
+    GS = GS.make_move_to(mv1.cell_index)
+    GS = GS.after_state
+    mv2 = p2.get_computer_move(GS)
+    GS = GS.make_move_to(mv2.cell_index)
+    GS = GS.after_state
+
+
+
+
+

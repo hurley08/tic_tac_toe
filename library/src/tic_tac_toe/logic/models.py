@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import enum 
 import re
+import random
 from dataclasses import dataclass
 from functools import cached_property
 
-from tic_tac_toe.logic.exceptions import InvalidMove
+from tic_tac_toe.logic.exceptions import InvalidMove, UnknownGameScore
 from tic_tac_toe.logic.validators import validate_game_state, validate_grid
 
 WINNING_PATTERNS = (
@@ -35,7 +36,7 @@ class Mark(enum.StrEnum):
 class Grid:
     cells: str = " " * 9
 
-    def __post__init(self) -> None:
+    def __post_init(self) -> None:
         if not re.match(r"^[\sX0]{9}$", self.cells):
             raise ValueError("Must contain 9 cells (chars) of X, O, or space")
     
@@ -59,8 +60,8 @@ class Grid:
 class Move:
     mark: Mark
     cell_index: int
-    before_state: "GameState"
-    after_state: "GameState"
+    before_state: GameState
+    after_state: GameState
 
 @dataclass(frozen=True)
 class GameState:
@@ -79,19 +80,22 @@ class GameState:
             return self.starting_mark.other
     
     @cached_property
+    #  Returns bool
     def game_not_started(self) -> bool:
         return self.grid.sp_count == 9
 
     @cached_property
+    # Returns bool
     def game_over(self) -> bool:
         return self.winner is not None or self.tie
 
     @cached_property
+    # Cells are all filled and no winner
     def tie(self) -> bool:
-        # Cells are all filled and no winner
         return self.winner is None and self.grid.sp_count == 0
     
     @cached_property
+    # Returns a Mark object or None
     def winner(self) -> Mark | None:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
@@ -100,6 +104,8 @@ class GameState:
         return None
     
     @cached_property
+    # Finds the indexes of the winning marks 
+    # Returns a list of integers or empty list
     def winning_cells(self) -> list[int]:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
@@ -111,13 +117,22 @@ class GameState:
 
     @cached_property
     def possible_moves(self) -> list[Move]:
+        # Determines remaining spaces on the board
         moves = []
         if not self.game_over:
             for match in re.finditer(r"\s", self.grid.cells):
                 moves.append(self.make_move_to(match.start()))
         return moves
     
+    def make_random_move(self) -> Move | None:
+        try:
+            return random.choice(self.possible_moves)
+        except IndexError:
+            return None 
+        
     def make_move_to(self, index: int) -> Move:
+        # This executes the move. Accepts a Move
+        # Returns a GameState with pre-state and post-state
         if self.grid.cells[index] != " ":
             raise InvalidMove("Cell is not empty")
         return Move(
@@ -134,7 +149,15 @@ class GameState:
             ),
         )
 
-                
+    def evaluate_score(self, mark: Mark) -> int:
+        if self.game_over:
+            if self.tie:
+                return 0
+            if self.winner:
+                return 1
+            else:
+                return -1
+        raise UnknownGameScore("Something's gone wrong")
 
 
 
