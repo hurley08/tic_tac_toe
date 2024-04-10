@@ -30,6 +30,32 @@ def validate_starting_mark(grid: Grid, starting_mark: Mark) -> None:
         if starting_mark != "O":
             raise InvalidGameState("Skipped turn detected")
 
+
+
+def validate_winner_refactor( grid: Grid, starting_mark: Mark, winner: Mark | None
+) -> None:
+    """ 
+    The winner will always have an equal number or more marks
+    than the starting player. 
+
+    if winner is the same as starting player, their number of pieces > opponents
+    if winner is not the same as starting player, their number of pieces <= opponents
+    """
+    if winner == "X":
+        if starting_mark == "X":
+            if grid.x_count <= grid.o_count:
+                raise InvalidGameState("Wrong number of Xs")
+        else:
+            if grid.x_count != grid.o_count:
+                raise InvalidGameState("Wrong number of Xs")
+    elif winner == "O":
+        if starting_mark == "O":
+            if grid.o_count <= grid.x_count:
+                raise InvalidGameState("Wrong number of Os")
+        else:
+            if grid.o_count != grid.x_count:
+                raise InvalidGameState("Wrong number of Os")
+
 def validate_winner(
     grid: Grid, starting_mark: Mark, winner: Mark | None
 ) -> None:
