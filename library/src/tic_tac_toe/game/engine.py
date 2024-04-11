@@ -6,7 +6,7 @@ import time
 
 from tic_tac_toe.game.players import Player, ComputerPlayer, DumbComputerPlayer
 from tic_tac_toe.game.renderers import Renderer
-from tic_tac_toe.logic.exceptions import InvalidMove
+from tic_tac_toe.logic.exceptions import InvalidMove, InvalidGameState
 from tic_tac_toe.logic.models import GameState, Grid, Mark
 from tic_tac_toe.logic.validators import validate_players, validate_grid
 
@@ -64,32 +64,36 @@ class TicTacToe:
         return self.state
 
     def play(self) -> None:
-        stat = self.state
-        player = self.current_player
-        print(self.state, "TER")
+        player = self.current_player 
         while not self.state.game_over:
-            if self.state.game_over or self.state.win:
-                break
             try:
                 #status = player.make_move(status)
-                stat = self.current_player.make_move(stat)
-                print(stat, "RONN")
-                if stat==False:
+                temp_state = self.current_player.make_move(self.state)
+                if temp_state == False:
+                    print(f"There are no more spaces available")
                     self.state.game_over = True
-                self.state = self.renderer.render(self, stat)
-                
-                winner = self.state.winner
-                
-                if winner:
-                    self.state.win= True
-                    self.state.game_over = True
+                else:
+                    self.state = temp_state
+                    print(self.state)
+                    if winner := self.state.is_winner:
+                        self.state.winner = winner
+                        print(f"{self.state.winner} wins \N{party popper}")
+                        self.state.win= True
+                        self.renderer.update_gs(self.state)
+                        self.renderer.render()
+                        print(self.state)
+                        self.state.game_over = True
+                        
+                        #self.renderer.render2()
+            except:
+                raise InvalidGameState("Something has happened")
+            finally:
                 self.current_mark = self.switch_players()
-                #game_state = self.set_game_status(game_state)
                 self.current_player = self.switch_current_player()
-            except InvalidMove as ex:
-                if self.error_handler:
-                    self.error_handler(ex)
+        if self.state.winner in ["X", "O"]:
             return self.state.winner
+        else:
+            return None
 
 '''
 @dataclass(frozen=True)

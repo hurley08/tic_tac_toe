@@ -8,21 +8,32 @@ from tic_tac_toe.game.renderers import Renderer
 from tic_tac_toe.logic.models import GameState
 
 class ConsoleRenderer(Renderer):
-    def render(self, game_state: GameState) -> None:
+    def __init__(self, Renderer, game_state):
+        self.active = True
+        self.Renderer = Renderer
+        self.GS = game_state
+    
+    def update_gs(self, game_state: GameState) -> None:
+        self.GS = game_state
+
+    def render2(self) -> None:
+        if not self.GS.win in (False, None):
+            print_solid(self.GS.grid.cells)
+    
+    def render(self) -> None:
         clear_screen()
-        if game_state.win: 
-            if game_state.winner in ["X", "O"]:
-                print_solid(game_state.grid.cells)
+        if self.GS.win: 
+            if self.GS.winner in ["X", "O"]:
+                print_solid(self.GS.grid.cells)
                 #print_blinking(game_state.grid.cells, game_state.winning_cells)
-                blink(f"{game_state.winner} wins \N{party popper}")
+                blink(f"{self.GS.winner} wins \N{party popper}")
                     #game_state.grid.cells, game_state.winning_cells)
                 #print(f"{game_state.winner} wins \N{party popper}")
             else:
-                print_solid(game_state.grid.cells)
-                if game_state.game_over == True and game_state.win == False:
+                print_solid(self.GS.grid.cells)
+                if self.GS.game_over == True and self.GS.win == False:
                     print("No one wins this time \N{neutral face}")
-            print(game_state)
-            return game_state
+            print(self.GS)
 
 def clear_screen() -> None:
     print("\033c", end="")

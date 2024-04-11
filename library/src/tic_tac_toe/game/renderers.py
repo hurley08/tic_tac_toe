@@ -6,5 +6,5 @@ from tic_tac_toe.logic.models import GameState
 
 class Renderer(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def render(game_state: GameState=None) -> None:
+    def render(game_state: GameState) -> None:
         """Render the current game state."""

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from enum import StrEnum
 import enum 
 import re
 from dataclasses import dataclass
@@ -113,7 +114,7 @@ class GameState:
         return self.winner is None and self.grid.sp_count == 0
     
     @cached_property
-    def winner(self) -> Mark | None:
+    def is_winner(self) -> Mark | None:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
                 if re.match(pattern.replace("?", mark), self.grid.cells):
