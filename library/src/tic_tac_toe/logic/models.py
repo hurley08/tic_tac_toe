@@ -4,7 +4,7 @@ import enum
 import re
 from dataclasses import dataclass
 from functools import cached_property
-
+from typing import AnyStr
 from tic_tac_toe.logic.exceptions import InvalidMove
 from tic_tac_toe.logic.validators import validate_game_state, validate_grid
 
@@ -38,10 +38,19 @@ class Grid:
     def __post__init(self) -> None:
         if not re.match(r"^[\sX0]{9}$", self.cells):
             raise ValueError("Must contain 9 cells (chars) of X, O, or space")
-    
+
     @cached_property
     def total_count(self) -> int:
         return len(self.cells)
+    
+    @cached_property
+    def both_counts(self) -> dict:
+        counts = {}
+        counts['X'] = self.cells.count("X")
+        counts['O'] = self.cells.count("O")
+        return counts
+
+    
         
     @cached_property
     def x_count(self) -> int:
@@ -54,6 +63,7 @@ class Grid:
     @cached_property
     def sp_count(self) -> int:
         return self.cells.count(" ")
+    
         
 @dataclass(frozen=True)
 class Move:
@@ -62,14 +72,25 @@ class Move:
     before_state: "GameState"
     after_state: "GameState"
 
-@dataclass(frozen=True)
+@dataclass
 class GameState:
-    # There are 6 unique game states 
+    # There are 6 unique game states
     grid: Grid
     starting_mark: Mark = Mark("X")
+    win: bool = False
+    game_over: bool = False
+    winner = None
 
-    def __post_init__(self) -> None:
+    def __post_init__(self, grid=Grid) -> None:
         validate_game_state(self)
+    
+    
+    @cached_property
+    def get_counts(self) -> dict:
+        count_dict = {}
+        count_dict["X"] = self.grid.x_count
+        count_dict["0"] = self.grid.o_count
+        return count_dict
 
     @cached_property
     def current_mark(self) -> Mark:
@@ -83,7 +104,7 @@ class GameState:
         return self.grid.sp_count == 9
 
     @cached_property
-    def game_over(self) -> bool:
+    def is_game_over(self) -> bool:
         return self.winner is not None or self.tie
 
     @cached_property
@@ -96,6 +117,8 @@ class GameState:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
                 if re.match(pattern.replace("?", mark), self.grid.cells):
+                    self.win=True
+                    self.game_over=True
                     return mark
         return None
     
@@ -116,6 +139,7 @@ class GameState:
             for match in re.finditer(r"\s", self.grid.cells):
                 moves.append(self.make_move_to(match.start()))
         return moves
+    
     
     def make_move_to(self, index: int) -> Move:
         if self.grid.cells[index] != " ":

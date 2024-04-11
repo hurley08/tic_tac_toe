@@ -1,6 +1,7 @@
 # frontends/console/renderers.py
 
 import textwrap
+import time
 from typing import Iterable
 
 from tic_tac_toe.game.renderers import Renderer
@@ -9,19 +10,32 @@ from tic_tac_toe.logic.models import GameState
 class ConsoleRenderer(Renderer):
     def render(self, game_state: GameState) -> None:
         clear_screen()
-        if game_state.winner:
-            print_blinking(game_state.grid.cells, game_state.winning_cells)
-            print(f"{game_state.winner} wins \N{party popper}")
-        else:
-            print_solid(game_state.grid.cells)
-            if game_state.tie:
-                print("No one wins this time \N{neutral face}")
+        if game_state.win: 
+            if game_state.winner in ["X", "O"]:
+                print_solid(game_state.grid.cells)
+                #print_blinking(game_state.grid.cells, game_state.winning_cells)
+                blink(f"{game_state.winner} wins \N{party popper}")
+                    #game_state.grid.cells, game_state.winning_cells)
+                #print(f"{game_state.winner} wins \N{party popper}")
+            else:
+                print_solid(game_state.grid.cells)
+                if game_state.game_over == True and game_state.win == False:
+                    print("No one wins this time \N{neutral face}")
+            print(game_state)
+            return game_state
 
 def clear_screen() -> None:
     print("\033c", end="")
 
 def blink(text: str) -> str:
-    return f"\033[5m{text}\033[0m"
+    for i in range(5):
+        print("\033[5m\r", text, end="",flush=True) 
+        print("\033[0m\r", end="",flush=True)
+        time.sleep(.05)
+        print("               ", end="")
+        
+    time.sleep(2)
+    print("\n",text)
 
 def print_blinking(cells: Iterable[str], positions: Iterable[int]) -> None:
     mutable_cells = list(cells)

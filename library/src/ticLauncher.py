@@ -1,11 +1,14 @@
 from tic_tac_toe.logic import validators, models, exceptions
 from tic_tac_toe.game import players, engine
-import frontends.console.renderers as renderers 
+import frontends.console.renderers as ren 
 from tic_tac_toe.game.renderers import Renderer as REN 
-
+import time
 ge = engine.TicTacToe
+'''
 gep = ge.play
 gcp = ge.get_current_player
+'''
+
 
 gr = models.Grid
 grtc = gr.total_count
@@ -32,11 +35,11 @@ gns = gs.game_not_started
 pm = gs.possible_moves
 mm = gs.make_move_to
 
-cr = renderers.ConsoleRenderer
-cs = renderers.clear_screen
-bl = renderers.blink
-pbl = renderers.print_blinking
-prs = renderers.print_solid
+cr = ren.ConsoleRenderer
+cs = ren.clear_screen
+bl = ren.blink
+pbl = ren.print_blinking
+prs = ren.print_solid
 
 player = players.Player
 player_dumb = players.DumbComputerPlayer
@@ -63,18 +66,38 @@ def create_random_cells():
     return t
 
 # Assign player types
-# Create a game
-
-p1 = player_dumb(mark.CROSS)
-p2 = player_dumb(mark.NOUGHT)
-Ren = cr()
-GAME = ge(p1,p2,Ren)
-GRID = gr()
-GS = gs(GRID)
+# Create a gamee
 
 
 
-print(GAME.play())
+
+
+repeat = input('Replay how many times? \n')
+tally = {}
+tally['X'] = 0
+tally['O'] = 0
+try:
+    repeat = int(repeat)
+except:
+    repeat = 1 
+finally:
+    for i in range(repeat):
+        p1 = player_dumb(mark.CROSS, currentPlayer=True)
+        p2 = player_dumb(mark.NOUGHT, currentPlayer=False)
+        gss = models.GameState(models.Grid())
+        Ren = cr()
+        GAME = ge(player1=p1, player2=p2,rend=ren.ConsoleRenderer, gamestate=gss )
+        print(GAME.state, GAME.state.winner, GAME.state.win)
+        #time.sleep(4)
+        print(GAME.state,"\n", gss)
+        time.sleep(5)
+        win = GAME.play()
+        tally[win.value] += 1 
+    print(tally)
+
+
+
+
 
 
 
