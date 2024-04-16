@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: tic_tac_toe
-Version: 0.1.0
-Summary: tictactoe with minimax solver
-Author-email: rsy <intriqet@gmail.com>
-License: MIT
-Requires-Python: >=3.11
-Description-Content-Type: text/markdown
