@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 def validate_grid(grid: Grid) -> None:
-    #if not re.match(r"^XO]{9}$", grid.cells):
+    # if not re.match(r"^XO]{9}$", grid.cells):
     #   raise ValueError("Must contain 9 cells of: X, O, or space")
     if len(grid.cells) != 9:
         raise ValueError("This attribute should be 9 characters long")
@@ -18,21 +18,32 @@ def validate_grid(grid: Grid) -> None:
         if not i in ("O", "X", " "):
             raise ValueError("Illegal characters ")
     return True
-    
-    #if not re.match("^(?=(OX ){9})", grid.cells):
+
+    # if not re.match("^(?=(OX ){9})", grid.cells):
     #    raise ValueError("Must contain 9 cells of: X, O, or space")
-    
+
+
 def validate_game_state(game_state: GameState) -> None:
     validate_number_of_marks(game_state.grid)
     validate_starting_mark(game_state.grid, game_state.starting_mark)
     if not game_state.win in (None, False):
-        validate_winner(grid=game_state.grid, starting_mark=game_state.starting_mark, winner=game_state.win)
-        validate_winner_refactor(grid=game_state.grid, starting_mark=game_state.starting_mark, winner=game_state.win)
+        validate_winner(
+            grid=game_state.grid,
+            starting_mark=game_state.starting_mark,
+            winner=game_state.win,
+        )
+        validate_winner_refactor(
+            grid=game_state.grid,
+            starting_mark=game_state.starting_mark,
+            winner=game_state.win,
+        )
+
 
 def validate_number_of_marks(grid: Grid) -> None:
     if abs(grid.x_count - grid.o_count) > 1:
         raise InvalidGameState("Abnormal proportion of X's to O's detected")
-    
+
+
 def validate_starting_mark(grid: Grid, starting_mark: Mark) -> None:
     if grid.x_count > grid.o_count:
         if starting_mark != "X":
@@ -42,17 +53,17 @@ def validate_starting_mark(grid: Grid, starting_mark: Mark) -> None:
             raise InvalidGameState("Skipped turn detected")
 
 
-
-def validate_winner_refactor( grid: Grid, starting_mark: Mark, winner: Mark | None
+def validate_winner_refactor(
+    grid: Grid, starting_mark: Mark, winner: Mark | None
 ) -> None:
-    """ 
+    """
     The winner will always have an equal number or more marks
-    than the starting player. 
+    than the starting player.
 
     if winner is the same as starting player, their number of pieces > opponents
     if winner is not the same as starting player, their number of pieces <= opponents
     """
-    
+
     if not winner == None or False:
         counts = grid.both_counts
         winner_count = counts[winner]
@@ -60,19 +71,20 @@ def validate_winner_refactor( grid: Grid, starting_mark: Mark, winner: Mark | No
 
         if winner == starting_mark:
             if not winner_count > opponent_count:
-                raise InvalidGameState("Winner started, number of pieces must be greater than opponent's")
+                raise InvalidGameState(
+                    "Winner started, number of pieces must be greater than opponent's"
+                )
         if winner.other == starting_mark:
             if not winner_count <= opponent_count:
-                raise InvalidGameState("Winner did not start and cannot have more pieces than opponent")
-            
+                raise InvalidGameState(
+                    "Winner did not start and cannot have more pieces than opponent"
+                )
 
 
-def validate_winner(
-    grid: Grid, starting_mark: Mark, winner: Mark | None
-) -> None:
-    """ 
+def validate_winner(grid: Grid, starting_mark: Mark, winner: Mark | None) -> None:
+    """
     The winner will always have an equal number or more marks
-    than the starting player. 
+    than the starting player.
 
     if winner is the same as starting player, their number of pieces > opponents
     if winner is not the same as starting player, their number of pieces <= opponents
@@ -91,6 +103,7 @@ def validate_winner(
         else:
             if grid.o_count != grid.x_count:
                 raise InvalidGameState("Wrong number of Os")
+
 
 def validate_players(player1: Player, player2: Player) -> None:
     if player1.mark is player2.mark:
