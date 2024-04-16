@@ -1,0 +1,19 @@
+[project]
+name = "tic_tac_toe"
+version = "0.1.0"
+description = "tictactoe with minimax solver"
+authors = [
+    {name = "rsy", email = "intriqet@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.pdm]
+distribution = true
