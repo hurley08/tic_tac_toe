@@ -39,16 +39,16 @@ def validate_game_state(game_state: GameState) -> None:
         )
 
 
-def validate_number_of_marks(grid: Grid) -> None:
-    if abs(grid.x_count - grid.o_count) > 1:
+def validate_number_of_marks(game_state: GameState) -> None:
+    if abs(game_state.grid.x_count - game_state.grid.o_count) > 1:
         raise InvalidGameState("Abnormal proportion of X's to O's detected")
 
 
-def validate_starting_mark(grid: Grid, starting_mark: Mark) -> None:
-    if grid.x_count > grid.o_count:
+def validate_starting_mark(game_state: GameState, starting_mark: Mark) -> None:
+    if game_state.grid.x_count > game_state.grid.o_count:
         if starting_mark != "X":
             raise InvalidGameState("Skipped turn detected")
-    elif grid.o_count > grid.x_count:
+    elif game_state.grid.o_count > game_state.grid.x_count:
         if starting_mark != "O":
             raise InvalidGameState("Skipped turn detected")
 

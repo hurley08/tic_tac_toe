@@ -34,34 +34,42 @@ class Mark(enum.StrEnum):
         return "CROSS" if self is Mark.CROSS else "NOUGHT"
 
 
-@dataclass(frozen=True)
 class Grid:
-    cells: str = " " * 9
+    def __init__(self, cells=" " * 9):
+        self.cells = cells
 
-    def __post__init(self) -> None:
+    def check_cells(self):
         if not re.match(r"^[\sX0]{9}$", self.cells):
             raise ValueError("Must contain 9 cells (chars) of X, O, or space")
+        if self.sp_count + self.x_count + self.o_count != 9:
+            raise ValueError("Grid's components do not add up")
+        return True
 
-    @cached_property
+    def set_cells(self, cell):
+        old_cells = self.cells
+        if len(cell) == 9:
+            self.cells = cell
+        else:
+            raise ValueError("cell can only contain 9 occurences of X, O, or space")
+        if not self.check_cells:
+            print("This is not legal")
+            self.cells = old_cells
+
     def total_count(self) -> int:
         return len(self.cells)
 
-    @cached_property
     def both_counts(self) -> dict:
         counts = {}
         counts["X"] = self.cells.count("X")
         counts["O"] = self.cells.count("O")
         return counts
 
-    @cached_property
     def x_count(self) -> int:
         return self.cells.count("X")
 
-    @cached_property
     def o_count(self) -> int:
         return self.cells.count("O")
 
-    @cached_property
     def sp_count(self) -> int:
         return self.cells.count(" ")
 
@@ -76,15 +84,15 @@ class Move:
 
 @dataclass
 class GameState:
-    # There are 6 unique game states
-    grid: Grid
-    starting_mark: Mark = Mark("X")
-    win: bool = False
-    game_over: bool = False
-    winner = None
-
-    def __post_init__(self, grid=Grid) -> None:
-        validate_game_state(self)
+    def __init__(self, grid=Grid):
+        # There are 6 unique game states
+        self.grid = grid
+        self.starting_mark: Mark = Mark("X")
+        self.win: bool = False
+        self.game_over: bool = False
+        self.winner = None
+        self.tie: bool = False
+        # validate_game_state(self)
 
     @cached_property
     def get_counts(self) -> dict:
