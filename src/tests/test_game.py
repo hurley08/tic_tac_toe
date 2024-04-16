@@ -2,6 +2,7 @@
 # tests engine.py, players.py, and renderers.py
 
 import pytest
+import copy
 
 from tic_tac_toe.game.engine import TicTacToe
 from tic_tac_toe.game.players import DumbComputerPlayer
@@ -29,6 +30,21 @@ def test_TTT_defaults(TTT_class):
 def test_default_order(TTT_class):
     assert TTT_class.current_player == TTT_class.p1
     assert TTT_class.current_mark == TTT_class.current_player.mark == TTT_class.p1.mark
+
+
+@pytest.mark.lg_overhead
+def test_play_until_tie(TTT_class):
+    marker = False
+    while marker == False:
+        GAME = copy.deepcopy(TTT_class)
+        game = GAME()
+        value = game.play()
+        if value == None:
+            marker = True
+    assert GAME.state.win == False
+    assert GAME.state.winner == None
+    assert GAME.state.game_over == True
+    assert GAME.state.tie == True
 
 
 def test_player_types(TTT_class):
@@ -70,17 +86,51 @@ def test_getset_game_status(TTT_class):
 def test_pre_play_conditions(TTT_class):
     GAME = TTT_class
     assert GAME.state.win != True
-    assert GAME.state.winner != None
+    assert GAME.state.winner == None
     assert GAME.state.game_over != True
 
 
 def test_post_play_conditions(TTT_class):
     GAME = TTT_class
     value = GAME.play()
-    assert GAME.state.win == True
-    assert GAME.state.winner != None
     assert GAME.state.game_over == True
-    assert not value in ["X", "O"]
+
+
+def test_many_games(TTT_class):
+    results = []
+    for i in range(10):
+        GAME = TTT_class
+        results.append(GAME.play())
+    assert len(results) == 10
+
+
+@pytest.mark.lg_overhead
+def test_play_until_p1_win(TTT_class):
+    marker = False
+    while marker == False:
+        GAME = TTT_class
+
+        value = GAME.play()
+        if value == GAME.p1.mark:
+            marker = True
+    assert GAME.state.win == True
+    assert GAME.state.winner == GAME.p1.mark
+    assert GAME.state.game_over == True
+    assert GAME.state.tie == False
+
+
+@pytest.mark.lg_overhead
+def test_play_until_p2_win(TTT_class):
+    marker = False
+    while marker == False:
+        GAME = TTT_class
+        value = GAME.play()
+        if value == GAME.p2.mark:
+            marker = True
+    assert GAME.state.win == True
+    assert GAME.state.winner == GAME.p2.mark
+    assert GAME.state.game_over == True
+    assert GAME.state.tie == False
 
 
 def test_TTT_methods(TTT_class):
