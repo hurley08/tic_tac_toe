@@ -97,20 +97,20 @@ class GameState:
     @cached_property
     def get_counts(self) -> dict:
         count_dict = {}
-        count_dict["X"] = self.grid.x_count
-        count_dict["0"] = self.grid.o_count
+        count_dict["X"] = self.grid.x_count()
+        count_dict["0"] = self.grid.o_count()
         return count_dict
 
     @cached_property
     def current_mark(self) -> Mark:
-        if self.grid.x_count == self.grid.o_count:
+        if self.grid.x_count() == self.grid.o_count():
             return self.starting_mark
         else:
             return self.starting_mark.other
 
     @cached_property
     def game_not_started(self) -> bool:
-        return self.grid.sp_count == 9
+        return self.grid.sp_count() == 9
 
     @cached_property
     def is_game_over(self) -> bool:
@@ -119,7 +119,7 @@ class GameState:
     @cached_property
     def tie(self) -> bool:
         # Cells are all filled and no winner
-        return self.winner is None and self.grid.sp_count == 0
+        return self.winner is None and self.grid.sp_count() == 0
 
     @cached_property
     def is_winner(self) -> Mark | None:
@@ -148,18 +148,17 @@ class GameState:
         return moves
 
     def make_move_to(self, index: int) -> Move:
+        print(f"{index=}")
         if self.grid.cells[index] != " ":
             raise InvalidMove("Cell is not empty")
+
+        grid = Grid(
+            self.grid.cells[:index] + self.current_mark + self.grid.cells[index + 1 :]
+        )
+        after_st = GameState(grid)
         return Move(
             mark=self.current_mark,
             cell_index=index,
             before_state=self,
-            after_state=GameState(
-                Grid(  # Uses slicing to produce after_state grid
-                    self.grid.cells[:index]
-                    + self.current_mark
-                    + self.grid.cells[index + 1 :]
-                ),
-                self.starting_mark,
-            ),
+            after_state=after_st,
         )

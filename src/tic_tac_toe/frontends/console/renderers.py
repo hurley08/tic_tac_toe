@@ -27,7 +27,7 @@ class ConsoleRenderer(GameState):
                 print_solid(self.GS.grid.cells)
                 # print_blinking(game_state.grid.cells, game_state.winning_cells)
                 blink(f"{self.GS.winner} wins \N{party popper}")
-                time.sleep(2)
+                time.sleep(1)
                 # game_state.grid.cells, game_state.winning_cells)
                 # print(f"{game_state.winner} wins \N{party popper}")
             else:
@@ -46,10 +46,10 @@ def blink(text: str) -> str:
     for i in range(5):
         print("\033[5m\r", text, end="", flush=True)
         print("\033[0m\r", end="", flush=True)
-        time.sleep(0.5)
+        time.sleep(0.25)
         print("               ", end="")
 
-    time.sleep(2)
+    time.sleep(0.5)
     print("\n", text)
 
 

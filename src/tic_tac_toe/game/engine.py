@@ -32,6 +32,9 @@ class TicTacToe:
         validate_grid(self.state.grid)
         self.current_player = self.p1
         self.current_mark = self.current_player.mark
+        print(
+            f"{self.current_mark=} {self.current_player=} {self.current_player.mark=}"
+        )
 
     def switch_current_player(self) -> Mark:
         if self.current_player == self.p1:
