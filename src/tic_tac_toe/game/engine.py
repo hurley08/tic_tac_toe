@@ -42,10 +42,9 @@ class TicTacToe:
 
     def who_is_current_player(self) -> Player:
         if self.current_player == self.p1:
-            self.current_player = self.p2
+            return self.p1
         else:
-            self.current_player = self.p1
-        return self.current_player
+            return self.p2
 
     # switch_players
 
@@ -61,8 +60,11 @@ class TicTacToe:
         else:
             return self.player2
 
-    def set_game_status(self) -> GameState:
-        replace(self)
+    def set_game_status(self, GameState) -> GameState:
+        self.state = GameState
+        return self.state
+
+    def get_game_status(self) -> GameState:
         return self.state
 
     def play(self) -> None:

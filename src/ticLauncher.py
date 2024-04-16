@@ -1,6 +1,6 @@
 from tic_tac_toe.logic import models
 from tic_tac_toe.game import players, engine
-from frontends.console.renderers import ConsoleRenderer as CR
+from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 import time
 
 """
@@ -75,6 +75,7 @@ repeat = input("Replay how many times? \n")
 tally = {}
 tally["X"] = 0
 tally["O"] = 0
+history = []
 
 
 def init_game():
@@ -97,7 +98,9 @@ finally:
         time.sleep(0.01)
         if win := game.play():
             tally[win.value] += 1
+            history.append(game.state)
         else:
+            history.append(game.state)
             pass
 
 print(tally)
