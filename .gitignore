@@ -1,4 +1,12 @@
 # Byte-compiled / optimized / DLL files
+library/src/tic_tac_toe/game/__pycache__/
+library/src/tic_tac_toe/logic/__pycache__/
+library/src/tic_tac_toe/logic/__pycache__/
+library/src/tests/__pycache__/
+library/src/frontends/__pycache__/
+library/src/frontends/console/__pycache__/
+library/src/__pycache__/
+
 __pycache__/
 *.pyc
 *.py[cod]
@@ -145,7 +153,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
+*/__pycache__/*
 # Pyre type checker
 .pyre/
 
