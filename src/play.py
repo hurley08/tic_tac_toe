@@ -16,7 +16,7 @@ for i in range(numGames):
     p1 = DumbComputerPlayer(Mark.CROSS)
     p2 = DumbComputerPlayer(Mark.NOUGHT)
     game = TicTacToe(p1, p2, ConsoleRenderer())
-    winner= game.play();
+    winner = game.play()
     time.sleep(1)
     game_results.append(winner)
 print(game_results)
@@ -33,6 +33,6 @@ for i in game_results:
         if i[0] == Mark.NOUGHT:
             p2_wins += 1
 
-if ties+p1_wins+p2_wins != numGames:
+if ties + p1_wins + p2_wins != numGames:
     print("The number of resultant games do not match the number played")
 print(f"Results:\n{p1_wins=} {p2_wins=} {ties=}")
