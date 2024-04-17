@@ -75,6 +75,7 @@ repeat = input("Replay how many times? \n")
 tally = {}
 tally["X"] = 0
 tally["O"] = 0
+tally["-"] = 0
 history = []
 
 
@@ -87,20 +88,26 @@ def init_game():
     GAME = ge(player1=p1, player2=p2, rend=ren, gamestate=gss)
     return GAME
 
-
+session_start = time.time()
 try:
     repeat = int(repeat)
 except:
     repeat = 1
 finally:
     for i in range(repeat):
+        game_start = time.time()
         game = init_game()
         time.sleep(0.01)
         if win := game.play():
             tally[win.value] += 1
-            history.append(game.state)
         else:
-            history.append(game.state)
+            tally["-"] += 1
             pass
+        game_end = time.time()
+        print(f"{game_start-game_end}s to complete this game")
+        history.append((i,GAME.state,game_end-game_start))
 
+session_end = time.time()
+print(f"This series took {session_end-session_start}s to complete")
+print(history)
 print(tally)
