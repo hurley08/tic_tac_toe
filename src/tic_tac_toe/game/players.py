@@ -7,6 +7,8 @@ from tic_tac_toe.logic.exceptions import InvalidMove
 
 
 class Player(metaclass=abc.ABCMeta):
+    """This class should be used to assign a human player"""
+
     def __init__(self, mark: Mark, current_player: bool = None) -> None:
         self.mark = mark
         self.current_player = None
@@ -20,15 +22,20 @@ class Player(metaclass=abc.ABCMeta):
             raise InvalidMove("It's the other players turn")
 
     def get_move(self, game_state: GameState) -> Move | None:
-        options = game_state.possible_moves
-        while not choice in options:
-            choice = input(f"Choose from the following: {options}")
-        """
-        Return computer move in the given game_state
-        """
+        options = {}
+
+        for i in game_state.possible_moves:
+            options[i.cell_index] = i
+
+        choice = None
+        while not choice in list(options.keys()):
+            choice = int(input(f"Choose from the following: {list(options.keys())}: "))
+        return options[choice]
 
 
 class ComputerPlayer(Player, metaclass=abc.ABCMeta):
+    """This class assigns a player that will use minimax in play but is not currently implemented"""
+
     def __init__(self, mark: Mark, delay_seconds: float = 0.15) -> None:
         super().__init__(mark)
         self.delay_seconds = delay_seconds
@@ -45,6 +52,8 @@ class ComputerPlayer(Player, metaclass=abc.ABCMeta):
 
 
 class DumbComputerPlayer(ComputerPlayer):
+    """This class assigns a computer player that selects moves randomly"""
+
     def __init__(
         self, mark: Mark, currentPlayer: bool = False, delay_seconds: float = 0.15
     ) -> None:

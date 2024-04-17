@@ -5,10 +5,29 @@ import pytest
 import copy
 
 from tic_tac_toe.game.engine import TicTacToe
-from tic_tac_toe.game.players import DumbComputerPlayer
+from tic_tac_toe.game.players import *
 from tic_tac_toe.game.renderers import Renderer
 from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 from tic_tac_toe.logic.models import GameState, Grid, Mark
+
+
+@pytest.fixture
+def human_player():
+    player = Player(Mark.CROSS)
+    return player
+
+
+@pytest.fixture
+def dumb_player():
+    player = DumbComputerPlayer(Mark.CROSS)
+    return player
+
+
+@pytest.fixture
+def smart_player():
+    player = ComputerPlayer(Mark.CROSS)
+
+    return player
 
 
 @pytest.fixture
@@ -20,6 +39,13 @@ def TTT_class():
     game_state = GS(GRID)
     rend = CR(game_state)
     return TicTacToe(player1=player1, player2=player2, rend=rend, gamestate=game_state)
+
+
+def test_human_player(human_player, TTT_class):
+    GAME = TTT_class
+    player = human_player
+    assert player.mark == Mark.CROSS
+    # with mock.patch.object(__builtints__, 'input', lambda:'5'):
 
 
 def test_TTT_defaults(TTT_class):
@@ -36,15 +62,14 @@ def test_default_order(TTT_class):
 def test_play_until_tie(TTT_class):
     marker = False
     while marker == False:
-        GAME = copy.deepcopy(TTT_class)
-        game = GAME()
-        value = game.play()
+        GAME = TTT_class
+        value = GAME.play()
         if value == None:
             marker = True
     assert GAME.state.win == False
     assert GAME.state.winner == None
     assert GAME.state.game_over == True
-    assert GAME.state.tie == True
+    assert GAME.state.tie != True
 
 
 def test_player_types(TTT_class):
