@@ -1,12 +1,21 @@
 [project]
 name = "tic_tac_toe"
-version = "0.1.0"
-description = "tictactoe with minimax solver"
+version = "0.2.0"
+description = "Simple console based tic_tac_toe game"
 authors = [
     {name = "rsy", email = "intriqet@gmail.com"},
+    {name = "hurley08", email = "intriqet@gmail.com"},
 ]
-dependencies = []
-requires-python = ">=3.11"
+dependencies = [
+    "dash>=2.16.1",
+    "pre-commit>=3.7.0",
+    "pytest>=8.1.1",
+    "pytest-html>=4.1.1",
+    "numpy>=1.26.4",
+    "pylint>=3.1.0",
+    "black>=24.4.0",
+]
+requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
 
@@ -16,15 +25,16 @@ build-backend = "setuptools.build_meta"
 
 [tools.pytest.ini_options]
 minversion = "6.0"
-addopts = -v -ra -q
-log_cli = True
-log_cli_level = INFO
-log_format = %(asctime)s %(levelname)s %(message)s
-log_date_format = %Y-%m-%d %H:%M:%S
-markers =
-	regression: Run the regression Tests
-	sanity: Quick tests
-	slow: Marks tests that executes slowly
+addopts = "-v -ra -q --trace"
+log_cli = "True"
+log_cli_level = "INFO"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+markers = [
+	"regression",
+	"sanity",
+	"slow: Marks tests that executes slowly"
+]
 
 [tool.pdm]
 distribution = true
