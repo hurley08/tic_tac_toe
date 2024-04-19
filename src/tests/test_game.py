@@ -41,6 +41,7 @@ def TTT_class():
     return TicTacToe(player1=player1, player2=player2, rend=rend, gamestate=game_state)
 
 
+@pytest.mark.sanity
 def test_human_player(human_player, TTT_class):
     GAME = TTT_class
     player = human_player
@@ -48,11 +49,13 @@ def test_human_player(human_player, TTT_class):
     # with mock.patch.object(__builtints__, 'input', lambda:'5'):
 
 
+@pytest.mark.sanity
 def test_TTT_defaults(TTT_class):
     GAME = TTT_class
     assert len(dir(GAME)) == 41
 
 
+@pytest.mark.sanity
 def test_default_order(TTT_class):
     assert TTT_class.current_player == TTT_class.p1
     assert TTT_class.current_mark == TTT_class.current_player.mark == TTT_class.p1.mark
@@ -72,24 +75,28 @@ def test_play_until_tie(TTT_class):
     assert GAME.state.tie != True
 
 
+@pytest.mark.sanity
 def test_player_types(TTT_class):
     GAME = TTT_class
     assert GAME.p1 != GAME.p2
     assert isinstance(GAME.p1, type(GAME.p2))
 
 
+@pytest.mark.sanity
 def test_switch_marks(TTT_class):
     old_mark = TTT_class.current_mark
     TTT_class.switch_marks()
     assert old_mark == TTT_class.current_mark
 
 
+@pytest.mark.sanity
 def test_switch_players(TTT_class):
     old_player = TTT_class.current_player
     TTT_class.switch_current_player()
     assert old_player != TTT_class.current_player
 
 
+@pytest.mark.sanity
 def test_who_is_current_player(TTT_class):
     GAME = TTT_class
     assert GAME.who_is_current_player() == GAME.p1
@@ -99,6 +106,7 @@ def test_who_is_current_player(TTT_class):
     assert GAME.current_player == GAME.p2
 
 
+@pytest.mark.sanity
 def test_getset_game_status(TTT_class):
     GAME = TTT_class
     assert GAME.state == GAME.get_game_status()
@@ -108,6 +116,7 @@ def test_getset_game_status(TTT_class):
     assert GAME.get_game_status() == move
 
 
+@pytest.mark.sanity
 def test_pre_play_conditions(TTT_class):
     GAME = TTT_class
     assert GAME.state.win != True
@@ -115,12 +124,14 @@ def test_pre_play_conditions(TTT_class):
     assert GAME.state.game_over != True
 
 
+@pytest.mark.sanity
 def test_post_play_conditions(TTT_class):
     GAME = TTT_class
     value = GAME.play()
     assert GAME.state.game_over == True
 
 
+@pytest.mark.sanity
 def test_many_games(TTT_class):
     results = []
     for i in range(10):
@@ -158,6 +169,7 @@ def test_play_until_p2_win(TTT_class):
     assert GAME.state.tie == False
 
 
+@pytest.mark.sanity
 def test_TTT_methods(TTT_class):
     methods = [
         "switch_current_player",
