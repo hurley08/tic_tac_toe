@@ -58,7 +58,7 @@ def test_default_order(TTT_class):
     assert TTT_class.current_mark == TTT_class.current_player.mark == TTT_class.p1.mark
 
 
-@pytest.mark.lg_overhead
+@pytest.mark.slow
 def test_play_until_tie(TTT_class):
     marker = False
     while marker == False:
@@ -129,7 +129,7 @@ def test_many_games(TTT_class):
     assert len(results) == 10
 
 
-@pytest.mark.lg_overhead
+@pytest.mark.slow
 def test_play_until_p1_win(TTT_class):
     marker = False
     while marker == False:
@@ -144,7 +144,7 @@ def test_play_until_p1_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.lg_overhead
+@pytest.mark.slow
 def test_play_until_p2_win(TTT_class):
     marker = False
     while marker == False:
