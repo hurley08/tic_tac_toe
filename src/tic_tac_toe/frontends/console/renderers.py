@@ -32,10 +32,11 @@ class ConsoleRenderer(GameState):
                 # print(f"{game_state.winner} wins \N{party popper}")
             else:
                 print_solid(self.GS.grid.cells)
-                if self.GS.game_over is True and self.GS.win is False:
+                if self.GS.game_over == True and self.GS.win == False:
                     print("No one wins this time \N{neutral face}")
         else:
             print_solid(self.GS.grid.cells)
+        return self.GS.winner
 
 
 def clear_screen() -> None:

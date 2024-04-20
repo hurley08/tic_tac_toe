@@ -14,6 +14,7 @@ dependencies = [
     "numpy>=1.26.4",
     "pylint>=3.1.0",
     "black>=24.4.0",
+    "pytest-timeout>=2.3.1",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
@@ -24,8 +25,9 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tools.pytest.ini_options]
+generate_report_on_test = "True"
 minversion = "6.0"
-addopts = "-v -ra -q --trace"
+addopts = "-s -v -ra -q --trace"
 log_cli = "True"
 log_cli_level = "INFO"
 log_format = "%(asctime)s %(levelname)s %(message)s"

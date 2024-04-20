@@ -76,7 +76,7 @@ class TicTacToe:
                 # status = player.make_move(status)
                 temp_state = self.current_player.make_move(self.state)
 
-                if temp_state is False:
+                if temp_state == False:
                     print("There are no more spaces available")
                     self.state.game_over = True
                 else:
