@@ -62,7 +62,7 @@ def blink(text: str) -> str:
         print(substr1, text, end="", flush=True)
         print(substr2, end="", flush=True)
         time.sleep(0.25)
-        print("               ", end=i)
+        print("                ", end="")
 
     time.sleep(0.5)
     return substr1
