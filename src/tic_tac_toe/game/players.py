@@ -79,7 +79,6 @@ class DumbComputerPlayer(ComputerPlayer):
         return self.get_computer_move(game_state)
 
     def get_computer_move(self, game_state: GameState) -> Move | None:
-
         try:
             choice = random.choice(game_state.possible_moves)
             return choice

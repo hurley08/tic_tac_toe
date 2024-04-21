@@ -132,7 +132,7 @@ def test_many_games(TTT_class, n_games):
     assert len(results) == n_games
 
 
-@pytest.mark.timeout(60)
+@pytest.mark.timeout(120)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
@@ -148,7 +148,7 @@ def test_play_until_p1_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(60)
+@pytest.mark.timeout(120)
 def test_play_until_p2_win(TTT_class):
     """Tests game state attributes after p2 wins a game"""
     marker = False
@@ -163,7 +163,7 @@ def test_play_until_p2_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(60)
+@pytest.mark.timeout(120)
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
     marker = False

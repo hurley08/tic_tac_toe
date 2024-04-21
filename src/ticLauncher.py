@@ -88,6 +88,7 @@ def init_game():
     GAME = ge(player1=p1, player2=p2, rend=ren, gamestate=gss)
     return GAME
 
+
 session_start = time.time()
 try:
     repeat = int(repeat)
@@ -105,7 +106,7 @@ finally:
             pass
         game_end = time.time()
         print(f"{game_start-game_end}s to complete this game")
-        history.append((i,GAME.state,game_end-game_start))
+        history.append((i, GAME.state, game_end - game_start))
 
 session_end = time.time()
 print(f"This series took {session_end-session_start}s to complete")
