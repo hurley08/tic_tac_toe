@@ -1,11 +1,12 @@
 [project]
 name = "tic_tac_toe"
 version = "0.2.0"
-description = "Simple console based tic_tac_toe game"
+description = "Default template for PDM package"
 authors = [
     {name = "rsy", email = "intriqet@gmail.com"},
     {name = "hurley08", email = "intriqet@gmail.com"},
 ]
+
 dependencies = [
     "dash>=2.16.1",
     "pre-commit>=3.7.0",
@@ -15,14 +16,11 @@ dependencies = [
     "pylint>=3.1.0",
     "black>=24.4.0",
     "pytest-timeout>=2.3.1",
+    "StrEnum>=0.4.15",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
-
-[build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
 
 [tools.pytest.ini_options]
 generate_report_on_test = "True"
@@ -40,3 +38,8 @@ markers = [
 
 [tool.pdm]
 distribution = true
+package-type = "library"
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"

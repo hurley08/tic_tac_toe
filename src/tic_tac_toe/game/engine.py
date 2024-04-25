@@ -13,19 +13,27 @@ ErrorHandler: TypeAlias = Callable[[Exception], None]
 
 
 class TicTacToe:
+
+    """TicTacToe Game Engine"""
+
+    # pylint: disable=too-many-instance-attributes
+    # Ten is reasonable in this case
+    # pylint: disable=too-many_arguments
+    # Five is reasonable in this case
+
     def __init__(
         self,
         player1=DumbComputerPlayer,
         player2=DumbComputerPlayer,
         rend=Renderer,
-        gamestate=None,
+        gamestate=GameState(Grid()),
         start_mark=Mark.CROSS,
         error_handler=None,
     ):
         self.p1 = player1
         self.p2 = player2
         self.renderer = rend
-        self.state = GameState(Grid())
+        self.state = gamestate
         self.starting_mark = start_mark
         self.error_handler = error_handler
         validate_players(self.p1, self.p2)
