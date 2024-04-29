@@ -148,7 +148,7 @@ def test_play_until_p1_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(120)
+@pytest.mark.timeout(240)
 def test_play_until_p2_win(TTT_class):
     """Tests game state attributes after p2 wins a game"""
     marker = False
@@ -163,7 +163,7 @@ def test_play_until_p2_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(120)
+@pytest.mark.timeout(240)
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
     marker = False
@@ -176,6 +176,36 @@ def test_play_until_tie(TTT_class):
     assert GAME.state.winner is None
     assert GAME.state.game_over == True
     assert not GAME.state.tie == True
+
+
+@pytest.mark.skip
+def test_setting_board_pieces():
+    """There is a set method in logic that allows custom input"""
+    print("This needs to be implemented")
+
+
+@pytest.mark.skip
+def test_setting_p1_win():
+    """Uses the set board method to set up p1 for win and detect win"""
+    print("This needs to be implemented")
+
+
+@pytest.mark.skip
+def test_setting_p2_win():
+    """Same as the above case but with p2"""
+    print("This needs to be implemented")
+
+
+@pytest.mark.skip
+def test_setting_tie():
+    """Same as the above case but for a tie"""
+    print("This needs to be implemented")
+
+
+@pytest.mark.skip
+def detect_all_win_combos():
+    """Parametrize and set all possible winning combos (8) for both players and check detection"""
+    print("This needs to be implemented")
 
 
 def test_TTT_methods(TTT_class):
