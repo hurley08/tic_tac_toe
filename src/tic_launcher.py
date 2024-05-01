@@ -48,9 +48,9 @@ finally:
             tally["-"] += 1
         game_end = time.time()
         print(f"{game_start-game_end}s to complete this game")
-        history.append((i, game.state, game_end - game_start))
+        history.append((i, game.state, round(game_end - game_start),3))
 
 session_end = time.time()
-print(f"This series took {session_end-session_start}s to complete")
+print(f"This series took {round(session_end-session_start, 3)}s to complete")
 print(history)
 print(tally)
