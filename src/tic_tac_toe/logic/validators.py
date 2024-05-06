@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import time
-import re
 from typing import TYPE_CHECKING
 from tic_tac_toe.logic.exceptions import InvalidGameState
 
@@ -15,7 +13,7 @@ def validate_grid(grid: Grid) -> None:
     if len(grid.cells) != 9:
         raise ValueError("This attribute should be 9 characters long")
     for i in set(grid.cells):
-        if not i in ("O", "X", " "):
+        if i not in ("O", "X", " "):
             raise ValueError("Illegal characters ")
     return True
 
@@ -26,7 +24,7 @@ def validate_grid(grid: Grid) -> None:
 def validate_game_state(game_state: GameState) -> None:
     validate_number_of_marks(game_state.grid)
     validate_starting_mark(game_state.grid, game_state.starting_mark)
-    if not game_state.win in (None, False):
+    if game_state.win not in (None, False):
         validate_winner(
             grid=game_state.grid,
             starting_mark=game_state.starting_mark,

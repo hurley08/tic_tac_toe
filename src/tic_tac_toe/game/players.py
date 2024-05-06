@@ -28,7 +28,7 @@ class Player(metaclass=abc.ABCMeta):
             options[i.cell_index] = i
 
         choice = None
-        while not choice in list(options.keys()):
+        while choice not in list(options.keys()):
             choice = int(input(f"Choose from the following: {list(options.keys())}: "))
         return options[choice]
 

@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from enum import StrEnum
 import enum
 import re
 from dataclasses import dataclass
 from functools import cached_property
-from typing import AnyStr
 from tic_tac_toe.logic.exceptions import InvalidMove
-from tic_tac_toe.logic.validators import validate_game_state, validate_grid
 
 WINNING_PATTERNS = (
     "???......",
