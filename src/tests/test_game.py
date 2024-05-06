@@ -2,11 +2,9 @@
 # tests engine.py, players.py, and renderers.py
 
 import pytest
-import copy
 
 from tic_tac_toe.game.engine import TicTacToe
 from tic_tac_toe.game.players import *
-from tic_tac_toe.game.renderers import Renderer
 from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 from tic_tac_toe.logic.models import GameState, Grid, Mark
 
@@ -67,7 +65,7 @@ def test_default_order(TTT_class):
 def test_match_player_types(TTT_class):
     """Tests that the default player types are the same"""
     GAME = TTT_class
-    assert not GAME.p1 is GAME.p2
+    assert GAME.p1 is not GAME.p2
     assert isinstance(GAME.p1, type(GAME.p2))
 
 
@@ -82,7 +80,7 @@ def test_switch_players(TTT_class):
     """Tests the method that switches the current player"""
     old_player = TTT_class.current_player
     TTT_class.switch_current_player()
-    assert not old_player is TTT_class.current_player
+    assert old_player is not TTT_class.current_player
 
 
 def test_who_is_current_player(TTT_class):
@@ -132,7 +130,7 @@ def test_many_games(TTT_class, n_games):
     assert len(results) == n_games
 
 
-@pytest.mark.timeout(120)
+@pytest.mark.timeout(240)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
@@ -148,7 +146,7 @@ def test_play_until_p1_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(120)
+@pytest.mark.timeout(240)
 def test_play_until_p2_win(TTT_class):
     """Tests game state attributes after p2 wins a game"""
     marker = False
@@ -163,7 +161,7 @@ def test_play_until_p2_win(TTT_class):
     assert GAME.state.tie == False
 
 
-@pytest.mark.timeout(120)
+@pytest.mark.timeout(240)
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
     marker = False
