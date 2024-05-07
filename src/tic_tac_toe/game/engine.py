@@ -12,7 +12,6 @@ ErrorHandler: TypeAlias = Callable[[Exception], None]
 
 
 class TicTacToe:
-
     """TicTacToe Game Engine"""
 
     # pylint: disable=too-many-instance-attributes
