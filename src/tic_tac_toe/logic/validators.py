@@ -1,9 +1,10 @@
+# tic_tac_toe/logic/validators.py
+
 from __future__ import annotations
 
-import time
-import re
 from typing import TYPE_CHECKING
 from tic_tac_toe.logic.exceptions import InvalidGameState
+from tic_tac_toe.game.models import Player
 
 if TYPE_CHECKING:
     from tic_tac_toe.logic.models import GameState, Grid, Mark
@@ -11,22 +12,22 @@ if TYPE_CHECKING:
 
 def validate_grid(grid: Grid) -> None:
     # if not re.match(r"^XO]{9}$", grid.cells):
-    #   raise ValueError("Must contain 9 cells of: X, O, or space")
+    #  raise ValueError("Must contain 9 cells of: X, O, or space")
     if len(grid.cells) != 9:
         raise ValueError("This attribute should be 9 characters long")
     for i in set(grid.cells):
-        if not i in ("O", "X", " "):
+        if i not in ("O", "X", " "):
             raise ValueError("Illegal characters ")
     return True
 
     # if not re.match("^(?=(OX ){9})", grid.cells):
-    #    raise ValueError("Must contain 9 cells of: X, O, or space")
+    #   raise ValueError("Must contain 9 cells of: X, O, or space")
 
 
 def validate_game_state(game_state: GameState) -> None:
     validate_number_of_marks(game_state.grid)
     validate_starting_mark(game_state.grid, game_state.starting_mark)
-    if not game_state.win in (None, False):
+    if game_state.win not in (None, False):
         validate_winner(
             grid=game_state.grid,
             starting_mark=game_state.starting_mark,
@@ -60,11 +61,13 @@ def validate_winner_refactor(
     The winner will always have an equal number or more marks
     than the starting player.
 
-    if winner is the same as starting player, their number of pieces > opponents
-    if winner is not the same as starting player, their number of pieces <= opponents
+    if winner is the same as starting player,
+    their number of pieces > opponents
+    if winner is not the same as starting player,
+    their number of pieces <= opponents
     """
 
-    if not winner == None or False:
+    if winner is not None or False:
         counts = grid.both_counts
         winner_count = counts[winner]
         opponent_count = counts[winner.other]
@@ -72,22 +75,30 @@ def validate_winner_refactor(
         if winner == starting_mark:
             if not winner_count > opponent_count:
                 raise InvalidGameState(
-                    "Winner started, number of pieces must be greater than opponent's"
+                    "Winner started, number of"
+                    "pieces must be greater than"
+                    "opponent's"
                 )
         if winner.other == starting_mark:
             if not winner_count <= opponent_count:
                 raise InvalidGameState(
-                    "Winner did not start and cannot have more pieces than opponent"
+                    "Winner did not start and"
+                    "cannot have more pieces"
+                    "opponent"  # noqa: E501
                 )
 
 
-def validate_winner(grid: Grid, starting_mark: Mark, winner: Mark | None) -> None:
+def validate_winner(
+    grid: Grid, starting_mark: Mark, winner: Mark | None
+) -> None:  # noqa: E501
     """
     The winner will always have an equal number or more marks
     than the starting player.
 
-    if winner is the same as starting player, their number of pieces > opponents
-    if winner is not the same as starting player, their number of pieces <= opponents
+    if winner is the same as starting player,
+    their number of pieces > opponents
+    if winner is not the same as starting player,
+    their number of pieces <= opponents
     """
     if winner == "X":
         if starting_mark == "X":

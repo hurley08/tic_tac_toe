@@ -1,6 +1,5 @@
 # tic_tac_toe/game/engine.py
 
-from dataclasses import replace
 from typing import Callable, TypeAlias
 
 from tic_tac_toe.game.players import Player, DumbComputerPlayer
@@ -40,10 +39,13 @@ class TicTacToe:
         self.current_player = self.p1
         self.current_mark = self.current_player.mark
         print(
-            f"{self.current_mark=} {self.current_player=} {self.current_player.mark=}"
+            f"{self.current_mark=} {self.current_player=} {self.current_player.mark=}"  # noqa: E501
         )
 
     def switch_current_player(self) -> Mark:
+        """
+        Switches active player
+        """
         if self.current_player == self.p1:
             self.current_player = self.p2
         else:
@@ -51,14 +53,19 @@ class TicTacToe:
         return self.current_player
 
     def who_is_current_player(self) -> Player:
+        """
+        Get active player
+        """
         if self.current_player == self.p1:
             return self.p1
         else:
             return self.p2
 
-    # switch_players
-
     def switch_marks(self) -> Mark:
+        """
+        Should be used with switch current player
+        to switch which mark will be placed on board
+        """
         if self.current_mark == Mark.CROSS:
             return Mark.NOUGHT
         else:
@@ -71,19 +78,31 @@ class TicTacToe:
             return self.player2
 
     def set_game_status(self, GameState) -> GameState:
+        """
+        This is not fully implemented but should
+        allow manually setting the grid for validation
+        purposes
+        """
         self.state = GameState
         return self.state
 
     def get_game_status(self) -> GameState:
+        """
+        Get GameState
+        """
         return self.state
 
     def play(self) -> None:
+        """
+        Initiates the game and will
+        continue until there is a winner
+        """
         while not self.state.game_over:
             try:
                 # status = player.make_move(status)
                 temp_state = self.current_player.make_move(self.state)
 
-                if temp_state == False:
+                if not temp_state:
                     print("There are no more spaces available")
                     self.state.game_over = True
                 else:
@@ -100,7 +119,7 @@ class TicTacToe:
                         self.state.game_over = True
 
                         # self.renderer.render2()
-            except:
+            except InvalidGameState:
                 raise InvalidGameState("Something has happened")
             finally:
                 self.renderer.update_gs(self.state)

@@ -1,13 +1,15 @@
+# tic_tac_toe/logic/models.py
+
 from __future__ import annotations
 
-from enum import StrEnum
+# from enum import StrEnum
 import enum
 import re
 from dataclasses import dataclass
 from functools import cached_property
-from typing import AnyStr
 from tic_tac_toe.logic.exceptions import InvalidMove
-from tic_tac_toe.logic.validators import validate_game_state, validate_grid
+
+# from tic_tac_toe.logic.validators import validate_game_state, validate_grid
 
 WINNING_PATTERNS = (
     "???......",
@@ -50,7 +52,9 @@ class Grid:
         if len(cell) == 9:
             self.cells = cell
         else:
-            raise ValueError("cell can only contain 9 occurences of X, O, or space")
+            raise ValueError(
+                "cell can only contain 9 occurences of X, O, or space"
+            )  # noqa: E501
         if not self.check_cells:
             print("This is not legal")
             self.cells = old_cells
@@ -136,7 +140,9 @@ class GameState:
         for pattern in WINNING_PATTERNS:
             for mark in Mark:
                 if re.match(pattern.replace("?", mark), self.grid.cells):
-                    return [match.start() for match in re.finditer(r"\?", pattern)]
+                    return [
+                        match.start() for match in re.finditer(r"\?", pattern)
+                    ]  # noqa: E501
         return []
 
     @cached_property
@@ -153,7 +159,9 @@ class GameState:
             raise InvalidMove("Cell is not empty")
 
         grid = Grid(
-            self.grid.cells[:index] + self.current_mark + self.grid.cells[index + 1 :]
+            self.grid.cells[:index]
+            + self.current_mark
+            + self.grid.cells[index + 1 :]  # noqa: E501
         )
         after_st = GameState(grid)
         return Move(

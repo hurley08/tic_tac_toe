@@ -2,10 +2,9 @@
 # tests engine.py, players.py, and renderers.py
 
 import pytest
-import copy
 
 from tic_tac_toe.game.engine import TicTacToe
-from tic_tac_toe.game.players import *
+from tic_tac_toe.game.players import Player, DumbComputerPlayer, ComputerPlayer
 from tic_tac_toe.game.renderers import Renderer
 from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 from tic_tac_toe.logic.models import GameState, Grid, Mark
@@ -46,14 +45,16 @@ def TTT_class():
 
 def test_human_player(human_player, TTT_class):
     """Tests some attributes of a human player"""
-    GAME = TTT_class
     player = human_player
     assert player.mark is Mark.CROSS
     # with mock.patch.object(__builtints__, 'input', lambda:'5'):
 
 
 def test_TTT_defaults(TTT_class):
-    """Tests that the instantiated game containes the specified nuumber of methods and attr"""
+    """
+    Tests that the instantiated game containes the
+    specified nuumber of methods and attr
+    """
     GAME = TTT_class
     assert len(dir(GAME)) == 41
 
@@ -61,13 +62,14 @@ def test_TTT_defaults(TTT_class):
 def test_default_order(TTT_class):
     """Tests that the default starting player is mark.CROSS"""
     assert TTT_class.current_player is TTT_class.p1
-    assert TTT_class.current_mark is TTT_class.current_player.mark is TTT_class.p1.mark
+    assert TTT_class.current_mark is TTT_class.current_player.mark
+    assert TTT_class.current_player.mark is TTT_class.p1.mark
 
 
 def test_match_player_types(TTT_class):
     """Tests that the default player types are the same"""
     GAME = TTT_class
-    assert not GAME.p1 is GAME.p2
+    assert GAME.p1 is not GAME.p2
     assert isinstance(GAME.p1, type(GAME.p2))
 
 
@@ -82,7 +84,7 @@ def test_switch_players(TTT_class):
     """Tests the method that switches the current player"""
     old_player = TTT_class.current_player
     TTT_class.switch_current_player()
-    assert not old_player is TTT_class.current_player
+    assert old_player is not TTT_class.current_player
 
 
 def test_who_is_current_player(TTT_class):
@@ -108,17 +110,17 @@ def test_getset_game_status(TTT_class):
 def test_pre_play_conditions(TTT_class):
     """Tests default values for game attributes following instantiation"""
     GAME = TTT_class
-    assert not GAME.state.win == True
+    assert GAME.state.win is not True
     assert GAME.state.winner is None
-    assert GAME.state.tie == False
-    assert not GAME.state.game_over == True
+    assert GAME.state.tie is False
+    assert GAME.state.game_over is not True
 
 
 def test_post_play_conditions(TTT_class):
     """Tests that game_over is set to true when a game is complete"""
     GAME = TTT_class
-    value = GAME.play()
-    assert GAME.state.game_over == True
+    # value = GAME.play()
+    assert GAME.state.game_over is True
 
 
 @pytest.mark.timeout(300)
@@ -136,46 +138,46 @@ def test_many_games(TTT_class, n_games):
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
-    while marker == False:
+    while marker is False:
         GAME = TTT_class
 
         value = GAME.play()
         if value is GAME.p1.mark:
             marker = True
-    assert GAME.state.win == True
+    assert GAME.state.win is True
     assert GAME.state.winner is GAME.p1.mark
-    assert GAME.state.game_over == True
-    assert GAME.state.tie == False
+    assert GAME.state.game_over is True
+    assert GAME.state.tie is False
 
 
 @pytest.mark.timeout(120)
 def test_play_until_p2_win(TTT_class):
     """Tests game state attributes after p2 wins a game"""
     marker = False
-    while marker == False:
+    while marker is False:
         GAME = TTT_class
         value = GAME.play()
         if value is GAME.p2.mark:
             marker = True
-    assert GAME.state.win == True
+    assert GAME.state.win is True
     assert GAME.state.winner is GAME.p2.mark
-    assert GAME.state.game_over == True
-    assert GAME.state.tie == False
+    assert GAME.state.game_over is True
+    assert GAME.state.tie is False
 
 
 @pytest.mark.timeout(120)
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
     marker = False
-    while marker == False:
+    while marker is False:
         GAME = TTT_class
         value = GAME.play()
-        if value == None:
+        if value is None:
             marker = True
-    assert GAME.state.win == False
+    assert GAME.state.win is False
     assert GAME.state.winner is None
-    assert GAME.state.game_over == True
-    assert not GAME.state.tie == True
+    assert GAME.state.game_over is True
+    assert GAME.state.tie is not True
 
 
 def test_TTT_methods(TTT_class):
