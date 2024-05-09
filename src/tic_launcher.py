@@ -1,6 +1,6 @@
 # tic_tac_toe/src/tic_launcher.py
 
-import time  # Provides methods to measure execution 
+import time  # Provides methods to measure execution
 import pprint
 from tic_tac_toe.logic import models
 from tic_tac_toe.game import players, engine
@@ -10,7 +10,7 @@ from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 PlayerDumb = players.DumbComputerPlayer
 PlayerSmart = players.ComputerPlayer
 Mark = models.Mark
-pprint = pprint.pprint #reassigning keyword for readibility
+pprint = pprint.pprint  # reassigning keyword for readibility
 
 # Ask how many cycles to play
 REPEAT = input("Replay how many times? \n")
@@ -50,10 +50,19 @@ finally:
             tally["-"] += 1
         game_end = time.time()
         print(f"{round(game_end-game_start,3)}s to complete this game")
-        history.append((i, game.state.winner, game.state.grid.cells, round(game_end - game_start,3)))
+        history.append(
+            (
+                i,
+                game.state.winner,
+                game.state.grid.cells,
+                round(game_end - game_start, 3),
+            )
+        )
 
 session_end = time.time()
-print(f"This series of {REPEAT} games took {round(session_end-session_start,3)}s to complete")
+print(
+    f"This series of {REPEAT} games took {round(session_end-session_start,3)}s to complete"
+)
 print(f"<nGame, winner, grid, numSeconds:>")
 pprint(history)
 print("Tally: ")
