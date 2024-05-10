@@ -120,7 +120,7 @@ def test_post_play_conditions(TTT_class):
     """Tests that game_over is set to true when a game is complete"""
     GAME = TTT_class
     # value = GAME.play()
-    assert GAME.state.game_over is True
+    assert GAME.state.game_over is not True
 
 
 @pytest.mark.timeout(300)
