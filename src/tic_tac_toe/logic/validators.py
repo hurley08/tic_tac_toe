@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from tic_tac_toe.logic.exceptions import InvalidGameState
-from tic_tac_toe.game.models import Player
+from tic_tac_toe.game.players import Player
 
 if TYPE_CHECKING:
     from tic_tac_toe.logic.models import GameState, Grid, Mark
