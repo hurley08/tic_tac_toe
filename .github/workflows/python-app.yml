@@ -30,6 +30,9 @@ jobs:
     - name: Autoformat with Black
       run: |
         black .
+    - name: Commit changes from Black
+      run: |
+        commit -m "Changes from auto-formatter Black"
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
