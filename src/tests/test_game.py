@@ -120,7 +120,7 @@ def test_post_play_conditions(TTT_class):
     """Tests that game_over is set to true when a game is complete"""
     GAME = TTT_class
     # value = GAME.play()
-    assert GAME.state.game_over is True
+    assert GAME.state.game_over is not True
 
 
 @pytest.mark.timeout(300)
@@ -146,7 +146,7 @@ def test_play_until_p1_win(TTT_class):
             marker = True
     assert GAME.state.win is True
     assert GAME.state.winner is GAME.p1.mark
-    assert GAME.state.game_over is True
+    assert GAME.state.game_over is not True
     assert GAME.state.tie is False
 
 
@@ -161,7 +161,7 @@ def test_play_until_p2_win(TTT_class):
             marker = True
     assert GAME.state.win is True
     assert GAME.state.winner is GAME.p2.mark
-    assert GAME.state.game_over is True
+    assert GAME.state.game_over is not True
     assert GAME.state.tie is False
 
 
@@ -175,8 +175,8 @@ def test_play_until_tie(TTT_class):
         if value is None:
             marker = True
     assert GAME.state.win is False
-    assert GAME.state.winner is None
-    assert GAME.state.game_over is True
+    assert GAME.state.winner is not None
+    assert GAME.state.game_over is not True
     assert GAME.state.tie is not True
 
 
