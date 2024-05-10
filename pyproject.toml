@@ -17,6 +17,7 @@ dependencies = [
     "black>=24.4.0",
     "pytest-timeout>=2.3.1",
     "StrEnum>=0.4.15",
+    "flake8>=7.0.0",
 ]
 requires-python = ">=3.12"
 readme = "README.md"
@@ -35,9 +36,14 @@ markers = [
 	"slow: Marks tests that executes slowly"
 ]
 
+
 [tool.pdm]
+<<<<<<< HEAD
 distribution = "True"
 
+=======
+distribution = true
+>>>>>>> develop
 [build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"

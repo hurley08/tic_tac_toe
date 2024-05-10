@@ -21,7 +21,7 @@ class ConsoleRenderer(GameState):
         self.game_state = game_state
 
     def update_gs(self, game_state: GameState) -> None:
-        """Allows to ConsoleRenderer to modify the GameState of the object it receives"""
+        """Allows to ConsoleRenderer to modify the GameState of the object it receives"""  # noqa: E501
         self.game_state = game_state
 
     def render2_(self) -> None:
@@ -30,19 +30,22 @@ class ConsoleRenderer(GameState):
             print_solid(self.game_state.grid.cells)
 
     def render(self) -> None:
-        """Determines if a win has happened and prints a board that represents the game"""
+        """Determines if a win has happened and prints a board that represents the game"""  # noqa: E501
         clear_screen()
         if self.game_state.win:
             if self.game_state.winner in ["X", "O"]:
                 print_solid(self.game_state.grid.cells)
-                # print_blinking(game_state.grid.cells, game_state.winning_cells)
+                # print_blinking(game_state.grid.cells, game_state.winning_cells)  # noqa: E501
                 blink(f"{self.game_state.winner} wins \N{party popper}")
                 time.sleep(1)
                 # game_state.grid.cells, game_state.winning_cells)
                 # print(f"{game_state.winner} wins \N{party popper}")
             else:
                 print_solid(self.game_state.grid.cells)
-                if self.game_state.game_over is True and self.game_state.win is False:
+                if (
+                    self.game_state.game_over is True
+                    and self.game_state.win is False  # noqa: E501
+                ):  # noqa: E501
                     print("No one wins this time \N{neutral face}")
         else:
             print_solid(self.game_state.grid.cells)
@@ -70,9 +73,11 @@ def blink(text: str) -> str:
 
 def print_blinking(cells: Iterable[str], positions: Iterable[int]) -> None:
     """
-    This was intended to print a board and embellish the pieces that resulted in the win but
+    This was intended to print a
+    board and embellish the pieces
+    that resulted in the win but
     this is non-functional
-    """
+    """  # noqa: E501
     mutable_cells = list(cells)
     for position in positions:
         mutable_cells[position] = blink(mutable_cells[position])
