@@ -3,9 +3,27 @@ repos:
     rev: v2.3.0
     hooks:
     -   id: check-yaml
+    -   id: check-toml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+    -   id: name-tests-test
+    -   id: requirements-txt-fixer
+    -   id: check-case-conflict
+    -   id: check-docstring-first
 -   repo: https://github.com/psf/black
     rev: 22.10.0
     hooks:
     -   id: black
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+    -   id: flake8
+- repo: local
+  hooks:
+  - id: pytest
+    name: pytest
+    entry: cd src && python -m pytest -v --cov-report html
+    language: system
+    types: [python]
+    pass_filenames: false
+    always_run: true
