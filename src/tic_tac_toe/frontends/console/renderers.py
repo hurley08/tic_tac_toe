@@ -59,15 +59,15 @@ def clear_screen() -> None:
 
 def blink(text: str) -> str:
     """Blinks text on terminal. Used to embellish winner"""
-    for i in range(5):
+    for i in range(3):
         substr1 = "\033[5m\r"
         substr2 = "\033[0m\r"
         print(substr1, text, end="", flush=True)
         print(substr2, end="", flush=True)
-        time.sleep(0.25)
+        time.sleep(0.15)
         print("                ", end="")
 
-    time.sleep(0.5)
+    time.sleep(0.05)
     return substr1
 
 

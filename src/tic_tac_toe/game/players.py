@@ -25,6 +25,7 @@ class Player(metaclass=abc.ABCMeta):
             raise InvalidMove("No more possible moves")
         else:
             raise InvalidMove("It's the other players turn")
+        return False
 
     def get_move(self, game_state: GameState) -> Move | None:
         """

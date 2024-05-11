@@ -129,6 +129,7 @@ class TicTacToe:
         if self.state.winner in ["X", "O"]:
             return self.state.winner
         else:
+            self.state.tie = True
             return None
 
 
