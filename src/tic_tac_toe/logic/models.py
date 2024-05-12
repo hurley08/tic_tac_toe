@@ -61,26 +61,27 @@ class Grid:
         """
         Validate the current board configuration
         """
+        if len(self.cells) != 9:
+            return ValueError("Must consist of 9 characters")
         if not re.match(r"^[\sX0]{9}$", self.cells):
-            raise ValueError("Must contain 9 cells (chars) of X, O, or space")
+            return ValueError("Must contain only X, O, or space")
         if self.sp_count + self.x_count + self.o_count != 9:
-            raise ValueError("Grid must have exactly 9 symbols")
+            return ValueError("Grid must have exactly 9 symbols")
         return True
 
     def set_cells(self, cell):
         """
         Attempts to assign a custom grid configuration
         """
+
         old_cells = self.cells
-        if len(cell) == 9:
-            self.cells = cell.replace(".", " ")
+        self.cells = cell
+        res = self.check_cells()
+        if res:
+            return True
         else:
-            raise ValueError(
-                "cell can only contain 9 occurences of X, O, or space"
-            )  # noqa: E501
-        if not self.check_cells:
-            print("This is not legal")
             self.cells = old_cells
+            return False
 
     def total_count(self) -> int:
         """
@@ -149,6 +150,7 @@ class GameState:
         count_dict = {}
         count_dict["X"] = self.grid.x_count()
         count_dict["0"] = self.grid.o_count()
+        count_dict["-"] = self.grid.sp_count()
         return count_dict
 
     @cached_property

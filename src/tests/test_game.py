@@ -2,10 +2,12 @@
 # tests engine.py, players.py, and renderers.py
 
 import pytest
+import time
 
 from tic_tac_toe.game.engine import TicTacToe
 from tic_tac_toe.game.players import Player, DumbComputerPlayer, ComputerPlayer
-from tic_tac_toe.game.renderers import Renderer
+
+# from tic_tac_toe.game.renderers import Renderer
 from tic_tac_toe.frontends.console.renderers import ConsoleRenderer as CR
 from tic_tac_toe.logic.models import GameState, Grid, Mark
 
@@ -14,21 +16,21 @@ from tic_tac_toe.logic.models import GameState, Grid, Mark
 def human_player():
     """Creates a human player instance"""
     player = Player(Mark.CROSS)
-    return player
+    yield player
 
 
 @pytest.fixture
 def dumb_player():
     """Creates an automated player that chooses moves randomly"""
     player = DumbComputerPlayer(Mark.CROSS)
-    return player
+    yield player
 
 
 @pytest.fixture
 def smart_player():
     """Creates an AI powered player. Not implemented currently"""
     player = ComputerPlayer(Mark.CROSS)
-    return player
+    yield player
 
 
 @pytest.fixture
@@ -40,7 +42,9 @@ def TTT_class():
     GRID = Grid()
     game_state = GS(GRID)
     rend = CR(game_state)
-    return TicTacToe(player1=player1, player2=player2, rend=rend, gamestate=game_state)
+    yield TicTacToe(
+        player1=player1, player2=player2, rend=rend, gamestate=game_state
+    )  # noqa: E501
 
 
 def test_human_player(human_player, TTT_class):
@@ -123,8 +127,60 @@ def test_post_play_conditions(TTT_class):
     assert GAME.state.game_over is not True
 
 
-@pytest.mark.timeout(300)
-@pytest.mark.parametrize("n_games", [5, 15, 20, 50])
+def test_play_at_least_50x_tie_v3(TTT_class):
+    count = 0
+    for i in range(50):
+        GAME = TTT_class
+        value = GAME.play()
+        if value is None:
+            count += 1
+            assert GAME.state.win is False
+            assert GAME.state.winner is None
+            assert GAME.state.game_over is True
+            assert GAME.state.tie is True
+            break
+    assert count == 0
+
+
+def test_play_at_least_100x_p2win(TTT_class):
+    count = 0
+    for i in range(100):
+        GAME = TTT_class
+        value = GAME.play()
+        if value is GAME.p2.mark:
+            count += 1
+            assert GAME.state.win is True
+            assert GAME.state.winner is GAME.p2.mark
+            assert GAME.state.game_over is True
+            assert GAME.state.tie is False
+            break
+    assert count == 0
+
+
+@pytest.mark.timeout(60)
+@pytest.mark.parametrize(
+    "grid", ["OXXXOOOXX", "  X OO X ", " XOOXX XO", "OOXO XX X", "OXXOOXXOX"]
+)
+def test_set_cells_valid(TTT_class, grid):
+    """There is a set method in logic that allows valid custom input"""
+    GAME = TTT_class
+    assert GAME.state.grid.cells != "         "
+    GAME.state.grid.set_cells(grid)
+    assert GAME.state.grid.cells == grid
+
+
+@pytest.mark.timeout(60)
+@pytest.mark.parametrize("grid", ["CBAS", "  OO X ", "YQE", "12", "xx00"])
+def test_set_cells_invalid(TTT_class, grid):
+    """There is a set method in logic that allows invalid custom input"""
+    GAME = TTT_class
+    assert GAME.state.grid.cells != "         "
+    res = GAME.state.grid.set_cells(grid)
+    assert res is True
+
+
+@pytest.mark.timeout(60)
+@pytest.mark.parametrize("n_games", [2, 3, 4, 5, 15, 20, 50])
 def test_many_games(TTT_class, n_games):
     """Tests that we can play and log results of multiple games"""
     results = []
@@ -134,14 +190,14 @@ def test_many_games(TTT_class, n_games):
     assert len(results) == n_games
 
 
-@pytest.mark.timeout(240)
+@pytest.mark.timeout(120)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
     while marker is False:
         GAME = TTT_class
-
         value = GAME.play()
+        # time.sleep(1)
         if value is GAME.p1.mark:
             marker = True
     assert GAME.state.win is True
@@ -150,40 +206,42 @@ def test_play_until_p1_win(TTT_class):
     assert GAME.state.tie is False
 
 
-@pytest.mark.timeout(240)
+@pytest.mark.timeout(120)
 def test_play_until_p2_win(TTT_class):
     """Tests game state attributes after p2 wins a game"""
-    marker = False
-    while marker is False:
-        GAME = TTT_class
-        value = GAME.play()
-        if value is GAME.p2.mark:
-            marker = True
-    assert GAME.state.win is True
-    assert GAME.state.winner is GAME.p2.mark
-    assert GAME.state.game_over is True
-    assert GAME.state.tie is False
+    try:
+        marker = False
+        while marker is False:
+            GAME = TTT_class
+            GAME.state.grid.set_cells("  X OO X ")
+            value = GAME.play()
+            time.sleep(1)
+            if value is GAME.p2.mark:
+                marker = True
+    finally:
+        assert GAME.state.win is True
+        assert GAME.state.winner is GAME.p2.mark
+        assert GAME.state.game_over is True
+        assert GAME.state.tie is False
 
 
-@pytest.mark.timeout(240)
+@pytest.mark.timeout(120)
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
-    marker = False
-    while marker is False:
-        GAME = TTT_class
-        value = GAME.play()
-        if value is None:
-            marker = True
-    assert GAME.state.win is False
-    assert GAME.state.winner is None
-    assert GAME.state.game_over is True
-    assert GAME.state.tie is not True
-
-
-@pytest.mark.skip
-def test_setting_board_pieces():
-    """There is a set method in logic that allows custom input"""
-    print("This needs to be implemented")
+    try:
+        marker = False
+        while marker is False:
+            GAME = TTT_class
+            GAME.state.grid.set_cells("OXXXOOOXX")
+            value = GAME.play()
+            time.sleep(1)
+            if value is None:
+                marker = True
+    finally:
+        assert GAME.state.win is False
+        assert GAME.state.winner is None
+        assert GAME.state.game_over is True
+        assert GAME.state.tie is True
 
 
 @pytest.mark.skip
@@ -206,7 +264,7 @@ def test_setting_tie():
 
 @pytest.mark.skip
 def detect_all_win_combos():
-    """Parametrize and set all possible winning combos (8) for both players and check detection"""
+    """Parametrize and set all possible winning combos (8) for both players and check detection"""  # noqa: E501
     print("This needs to be implemented")
 
 
