@@ -164,7 +164,7 @@ def test_play_at_least_100x_p2win(TTT_class):
 def test_set_cells_valid(TTT_class, grid):
     """There is a set method in logic that allows valid custom input"""
     GAME = TTT_class
-    assert GAME.state.grid.cells != "         "
+    assert GAME.state.grid.cells == "         "
     GAME.state.grid.set_cells(grid)
     assert GAME.state.grid.cells == grid
 
@@ -174,7 +174,7 @@ def test_set_cells_valid(TTT_class, grid):
 def test_set_cells_invalid(TTT_class, grid):
     """There is a set method in logic that allows invalid custom input"""
     GAME = TTT_class
-    assert GAME.state.grid.cells != "         "
+    assert GAME.state.grid.cells == "         "
     res = GAME.state.grid.set_cells(grid)
     assert res is True
 
@@ -189,7 +189,7 @@ def test_many_games(TTT_class, n_games):
         results.append(GAME.play())
     assert len(results) == n_games
 
-
+2222222222222222222222
 @pytest.mark.timeout(120)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
