@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import enum
+import StrEnum
 import re
 from dataclasses import dataclass
 from functools import cached_property
@@ -22,7 +23,7 @@ WINNING_PATTERNS = (
 )
 
 en = enum.StrEnum
-class Mark(en):
+class Mark(StrEnum):
     """
     Class to manage active symbols
     """
