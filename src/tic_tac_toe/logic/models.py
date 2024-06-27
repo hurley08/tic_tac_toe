@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import enum
-import StrEnum
+
 import re
 from dataclasses import dataclass
 from functools import cached_property
@@ -22,8 +22,8 @@ WINNING_PATTERNS = (
     "..?.?.?..",
 )
 
-en = enum.StrEnum
-class Mark(StrEnum):
+
+class Mark(enum.StrEnum):
     """
     Class to manage active symbols
     """
@@ -34,7 +34,7 @@ class Mark(StrEnum):
     @property
     def other(self) -> Mark:
         """
-        To easily refer to the opposite mark
+        To easily refer to the opposites mark
         """
         return Mark.CROSS if self is Mark.NOUGHT else Mark.NOUGHT
 
