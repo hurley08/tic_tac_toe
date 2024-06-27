@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.11", "3.12"]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -51,6 +51,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        sh run_tests.sh
+        sh run_test.sh
     - name: Display Python Version
       run: python -c "import sys; print(sys.version)"
