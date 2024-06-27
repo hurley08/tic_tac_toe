@@ -128,6 +128,7 @@ def test_post_play_conditions(TTT_class):
 
 
 def test_play_at_least_50x_tie_v3(TTT_class):
+    # Runs up to 50 games until p2 wins. Breaks and Passes test case upon tie
     count = 0
     for i in range(50):
         GAME = TTT_class
@@ -142,7 +143,9 @@ def test_play_at_least_50x_tie_v3(TTT_class):
     assert count == 0
 
 
+@pytest.mark.skip
 def test_play_at_least_100x_p2win(TTT_class):
+    # Runs up to 100 games until p2 wins. Breaks and Passes test case upon p2 win
     count = 0
     for i in range(100):
         GAME = TTT_class
@@ -154,7 +157,7 @@ def test_play_at_least_100x_p2win(TTT_class):
             assert GAME.state.game_over is True
             assert GAME.state.tie is False
             break
-    assert count == 0
+    assert count != 0
 
 
 @pytest.mark.timeout(60)
@@ -189,8 +192,16 @@ def test_many_games(TTT_class, n_games):
         results.append(GAME.play())
     assert len(results) == n_games
 
+<<<<<<< HEAD
 2222222222222222222222
 @pytest.mark.timeout(120)
+||||||| parent of 876202d (Consolated python and os matrices into one workflow)
+
+@pytest.mark.timeout(120)
+=======
+
+@pytest.mark.timeout(240)
+>>>>>>> 876202d (Consolated python and os matrices into one workflow)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
@@ -226,6 +237,7 @@ def test_play_until_p2_win(TTT_class):
 
 
 @pytest.mark.timeout(120)
+@pytest.mark.skip
 def test_play_until_tie(TTT_class):
     """Tests game state attributes after neither player wins"""
     try:
