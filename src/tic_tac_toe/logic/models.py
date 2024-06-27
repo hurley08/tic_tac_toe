@@ -21,8 +21,8 @@ WINNING_PATTERNS = (
     "..?.?.?..",
 )
 
-
-class Mark(enum.StrEnum):
+en = enum.StrEnum
+class Mark(en):
     """
     Class to manage active symbols
     """
