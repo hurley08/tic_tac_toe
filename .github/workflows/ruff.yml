@@ -9,5 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: chartboost/ruff-action@v1
-    run: |
-      - ruff --fix --unsafe-fix
+      - name: Execute Ruff Fix
+        run : |
+          ruff check . --fix --unsafe-fixes
