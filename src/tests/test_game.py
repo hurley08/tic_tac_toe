@@ -192,16 +192,9 @@ def test_many_games(TTT_class, n_games):
         results.append(GAME.play())
     assert len(results) == n_games
 
-<<<<<<< HEAD
-2222222222222222222222
-@pytest.mark.timeout(120)
-||||||| parent of 876202d (Consolated python and os matrices into one workflow)
 
-@pytest.mark.timeout(120)
-=======
 
 @pytest.mark.timeout(240)
->>>>>>> 876202d (Consolated python and os matrices into one workflow)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""
     marker = False
