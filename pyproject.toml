@@ -18,6 +18,7 @@ dependencies = [
     "pytest-timeout>=2.3.1",
     "StrEnum>=0.4.15",
     "flake8>=7.0.0",
+    "pytest-cov>=5.0.0",
 ]
 requires-python = ">=3.9"
 readme = "README.md"
