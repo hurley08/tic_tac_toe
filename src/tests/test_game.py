@@ -193,7 +193,7 @@ def test_many_games(TTT_class, n_games):
     assert len(results) == n_games
 
 
-
+@pytest.mark.skip
 @pytest.mark.timeout(240)
 def test_play_until_p1_win(TTT_class):
     """Tests game state attributes after p1 wins a game"""

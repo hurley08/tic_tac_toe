@@ -9,7 +9,7 @@ import time
 game_results = []
 p2_wins = []
 numGames = None
-while numGames == None:
+while numGames is None:
     numGames = int(input("How many games to play? "))
 for i in range(numGames):
     p1 = DumbComputerPlayer(Mark.CROSS)
@@ -24,9 +24,9 @@ p1_wins = 0
 p2_wins = 0
 
 for i in game_results:
-    if i[0] == None and i[1] == True:
+    if i[0] is None and i[1] is True:
         ties += 1
-    if i[1] == False:
+    if i[1] is False:
         if i[0] == Mark.CROSS:
             p1_wins += 1
         if i[0] == Mark.NOUGHT:

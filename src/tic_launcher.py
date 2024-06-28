@@ -63,7 +63,7 @@ session_end = time.time()
 print(
     f"This series of {REPEAT} games took {round(session_end-session_start,3)}s to complete"
 )
-print(f"<nGame, winner, grid, numSeconds:>")
+print("<nGame, winner, grid, numSeconds:>")
 pprint(history)
 print("Tally: ")
 pprint(tally)
