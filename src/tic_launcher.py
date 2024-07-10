@@ -62,16 +62,7 @@ def game_play():
                 )
             )
 
-<<<<<<< HEAD
-session_end = time.time()
-print(
-    f"This series of {REPEAT} games took {round(session_end-session_start,3)}s to complete"
-)
-print("<nGame, winner, grid, numSeconds:>")
-pprint(history)
-print("Tally: ")
-pprint(tally)
-=======
+
     session_end = time.time()
     print(
         f"This series of {REPEAT} games took \
@@ -82,5 +73,3 @@ pprint(tally)
     pprint(history)
     print("Tally: ")
     pprint(tally)
-
->>>>>>> dccd7fe (added sphinx to the project for autodoc)
