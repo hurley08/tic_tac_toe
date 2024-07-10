@@ -19,6 +19,7 @@ class Player(metaclass=abc.ABCMeta):
         """
         Attempts to place the piece on board
         """
+
         if self.mark is game_state.current_mark:
             if move := self.get_move(game_state):
                 return move.after_state
@@ -32,6 +33,7 @@ class Player(metaclass=abc.ABCMeta):
         This will request user to choose between
         available moves
         """
+
         options = {}
 
         for i in game_state.possible_moves:
@@ -103,6 +105,7 @@ class DumbComputerPlayer(ComputerPlayer):
         Don't recall why this is necessary but this
         is functioning like a wrapper
         """
+
         time.sleep(self.delay_seconds)
         return self.get_computer_move(game_state)
 
@@ -110,6 +113,7 @@ class DumbComputerPlayer(ComputerPlayer):
         """
         Chooses a random move from available moves
         """
+        
         try:
             choice = random.choice(game_state.possible_moves)
             return choice
